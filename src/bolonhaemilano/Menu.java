@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in, "UTF-8");
     private boolean emExecucao = true;
+    private final Governo governo = new Governo();
     private final Agricultura agricultura = new Agricultura();
     private final Mercado mercado = new Mercado();
     private Cidade cidade;
@@ -24,7 +25,8 @@ public class Menu {
         System.out.println("2 - Ver status da cidade");
         System.out.println("3 - Mercado");
         System.out.println("4 - Agricultura");
-        System.out.println("5 - Sobre o jogo");
+        System.out.println("5 - Governo");
+        System.out.println("6 - Sobre o jogo");
         System.out.println("0 - Sair");
     }
 
@@ -56,6 +58,9 @@ public class Menu {
                 abrirAgricultura();
                 break;
             case 5:
+                abrirGoverno();
+                break;
+            case 6:
                 exibirSobre();
                 break;
             case 0:
@@ -178,6 +183,58 @@ public class Menu {
         } else {
             System.out.println("Use uma porcentagem inteira de 20 a 80.");
         }
+    }
+
+    private void abrirGoverno() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+        while (true) {
+            System.out.printf("%n--- Governo | taxa %d%% | justiça %s ---%n",
+                    cidade.getTaxaImposto(), cidade.getNivelJustica());
+            System.out.println("1 - Arrecadar impostos");
+            System.out.println("2 - Definir taxa de imposto");
+            System.out.println("3 - Definir nível de justiça");
+            System.out.println("0 - Voltar");
+            switch (lerOpcao()) {
+                case 1:
+                    arrecadarImpostos();
+                    break;
+                case 2:
+                    int taxa = lerQuantidade("Taxa (0 a 50): ");
+                    if (governo.definirTaxaImposto(cidade, taxa)) {
+                        System.out.println("Taxa definida.");
+                    } else {
+                        System.out.println("Use uma taxa inteira entre 0 e 50.");
+                    }
+                    break;
+                case 3:
+                    escolherJustica();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
+    }
+
+    private void arrecadarImpostos() {
+        int florins = governo.arrecadarImpostos(cidade);
+        System.out.println("Florins arrecadados: " + florins);
+    }
+
+    private void escolherJustica() {
+        System.out.println("1 - Justa | 2 - Moderada | 3 - Severa");
+        String[] niveis = {"Justa", "Moderada", "Severa"};
+        int opcao = lerOpcao();
+        if (opcao < 1 || opcao > niveis.length) {
+            System.out.println("Nível de justiça inválido.");
+            return;
+        }
+        governo.definirJustica(cidade, niveis[opcao - 1]);
+        System.out.println("Justiça definida como " + cidade.getNivelJustica() + ".");
     }
 
     private void exibirSobre() {
