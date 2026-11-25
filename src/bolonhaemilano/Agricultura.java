@@ -9,6 +9,9 @@ public class Agricultura {
     private static final int PERCENTUAL_MAXIMO = 80;
 
     public int processarColheita(Cidade cidade) {
+        if (cidade.isColheitaFeita()) {
+            return -1;
+        }
         int hectares = (int) Math.min(cidade.getTerras(), (long) cidade.getServos() * HECTARES_POR_SERVO);
         int sementes = hectares / 2;
         if (sementes > cidade.getGraos()) {
@@ -18,6 +21,7 @@ public class Agricultura {
         cidade.removerGraos(sementes);
         long producao = (long) hectares * RENDIMENTO_POR_HECTARE;
         cidade.adicionarGraos((int) Math.min(producao, Integer.MAX_VALUE - cidade.getGraos()));
+        cidade.marcarColheitaFeita();
         return hectares;
     }
 

@@ -1,8 +1,9 @@
 package bolonhaemilano;
 
 public class Jogador {
+    private static final String[] TITULOS = {"Cavaleiro", "Barão", "Conde", "Marquês", "Duque", "Rei/Rainha"};
     private final String nome;
-    private final String titulo = "Cavaleiro";
+    private int nivelTitulo;
 
     public Jogador(String nome) {
         this.nome = nome;
@@ -13,6 +14,22 @@ public class Jogador {
     }
 
     public String getTitulo() {
-        return titulo;
+        return TITULOS[nivelTitulo];
+    }
+
+    public int getNivelTitulo() {
+        return nivelTitulo;
+    }
+
+    public boolean ehMonarca() {
+        return nivelTitulo == TITULOS.length - 1;
+    }
+
+    public boolean promover() {
+        if (ehMonarca()) {
+            return false;
+        }
+        nivelTitulo++;
+        return true;
     }
 }

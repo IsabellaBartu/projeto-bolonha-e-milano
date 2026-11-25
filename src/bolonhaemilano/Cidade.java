@@ -3,7 +3,10 @@ package bolonhaemilano;
 public class Cidade {
     private final String nome;
     private final Jogador dono;
-    private int anoAtual = 1400;
+    private static final int ANO_INICIAL = 1400;
+    private int anoAtual = ANO_INICIAL;
+    private boolean colheitaFeita;
+    private boolean impostosArrecadados;
     private int construcoes = 0;
     private int soldados = 0;
     private int taxaImposto = 10;
@@ -32,6 +35,24 @@ public class Cidade {
 
     public void avancarAno() {
         anoAtual++;
+        colheitaFeita = false;
+        impostosArrecadados = false;
+    }
+
+    public boolean isColheitaFeita() {
+        return colheitaFeita;
+    }
+
+    public void marcarColheitaFeita() {
+        colheitaFeita = true;
+    }
+
+    public boolean isImpostosArrecadados() {
+        return impostosArrecadados;
+    }
+
+    public void marcarImpostosArrecadados() {
+        impostosArrecadados = true;
     }
 
     public int getGraos() {
@@ -166,6 +187,8 @@ public class Cidade {
         System.out.println("Construções: " + construcoes);
         System.out.println("Taxa de imposto: " + taxaImposto + "%");
         System.out.println("Nível de justiça: " + nivelJustica);
+        System.out.println("Colheita deste ano: " + (colheitaFeita ? "feita" : "pendente"));
+        System.out.println("Impostos deste ano: " + (impostosArrecadados ? "arrecadados" : "pendentes"));
         System.out.println("Servos: " + servos);
         System.out.println("Florins: " + florins);
         System.out.println("Terras: " + terras + " hectares");
