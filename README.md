@@ -35,7 +35,7 @@ O prestígio é calculado por `construções × 10 + soldados × 2 + servos + te
 
 1. No menu, escolha **1** e cadastre **Ana** e **Beto**. Pressione Enter para usar Bolonha e Milano.
 2. Ana abre Agricultura com **4**, colhe com **1**, distribui 50% com **2** e volta com **0**. Em **5 → 3 → 3** escolhe a justiça Severa. Ainda em Governo, escolhe **1** para arrecadar. Volta com **0**, constrói 10 obras em **6 → 2** e volta com **0**.
-3. Ana encerra com **7**. Beto pode colher e arrecadar para a cidade dele. Quando Beto escolhe **7**, o jogo exibe a promoção de Ana a Barão com **410 de prestígio** e começa 1401. A opção **8** permite mostrar a classificação de novo.
+3. Ana encerra com **7**. Beto se quiser pode colher e arrecadar para a cidade dele. Quando Beto escolhe **7**, o jogo exibe a promoção de Ana a Barão com **410 de prestígio** e começa 1401. A opção **8** permite mostrar a classificação de novo.
 
 ## Diagramas
 
