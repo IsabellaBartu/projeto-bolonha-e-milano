@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in, "UTF-8");
     private boolean emExecucao = true;
+    private Cidade cidade;
 
     public void executar() {
         try (Scanner entrada = scanner) {
@@ -18,7 +19,8 @@ public class Menu {
     private void exibirOpcoes() {
         System.out.println("\n=== Bolonha & Milano ===");
         System.out.println("1 - Novo jogo");
-        System.out.println("2 - Sobre o jogo");
+        System.out.println("2 - Ver status da cidade");
+        System.out.println("3 - Sobre o jogo");
         System.out.println("0 - Sair");
     }
 
@@ -41,6 +43,9 @@ public class Menu {
                 iniciarNovoJogo();
                 break;
             case 2:
+                exibirStatus();
+                break;
+            case 3:
                 exibirSobre();
                 break;
             case 0:
@@ -52,7 +57,27 @@ public class Menu {
     }
 
     private void iniciarNovoJogo() {
-        System.out.println("Novo jogo iniciado!");
+        String nomeJogador = lerTexto("Nome do jogador: ", "Jogador");
+        String nomeCidade = lerTexto("Nome da cidade: ", "Bolonha");
+        cidade = new Cidade(nomeCidade, new Jogador(nomeJogador));
+        exibirStatus();
+    }
+
+    private String lerTexto(String pergunta, String padrao) {
+        System.out.print(pergunta);
+        if (!scanner.hasNextLine()) {
+            return padrao;
+        }
+        String texto = scanner.nextLine().trim();
+        return texto.isEmpty() ? padrao : texto;
+    }
+
+    private void exibirStatus() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+        cidade.exibirStatus();
     }
 
     private void exibirSobre() {
