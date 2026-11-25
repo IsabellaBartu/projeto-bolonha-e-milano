@@ -46,12 +46,7 @@ public class Menu {
         if (!scanner.hasNextLine()) {
             return 0;
         }
-        String linha = scanner.nextLine().trim();
-        try {
-            return Integer.parseInt(linha);
-        } catch (NumberFormatException erro) {
-            return -1;
-        }
+        return lerInteiro();
     }
 
     private void processarOpcao(int opcao) {
@@ -120,8 +115,7 @@ public class Menu {
     }
 
     private void exibirStatus() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         cidade.exibirStatus();
@@ -129,6 +123,10 @@ public class Menu {
 
     private int lerQuantidade(String pergunta) {
         System.out.print(pergunta);
+        return lerInteiro();
+    }
+
+    private int lerInteiro() {
         if (!scanner.hasNextLine()) {
             return -1;
         }
@@ -144,8 +142,7 @@ public class Menu {
     }
 
     private void abrirMercado() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         while (true) {
@@ -177,8 +174,7 @@ public class Menu {
     }
 
     private void abrirAgricultura() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         while (true) {
@@ -222,8 +218,7 @@ public class Menu {
     }
 
     private void abrirGoverno() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         while (true) {
@@ -278,8 +273,7 @@ public class Menu {
     }
 
     private void abrirConstrucoes() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         while (true) {
@@ -306,8 +300,7 @@ public class Menu {
     }
 
     private void encerrarTurno() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         int ano = partida.getAnoAtual();
@@ -331,8 +324,7 @@ public class Menu {
     }
 
     private void exibirClassificacao() {
-        if (cidade == null) {
-            System.out.println("Nenhum jogo em andamento.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         System.out.println("=== CLASSIFICAÇÃO ===");
@@ -355,6 +347,14 @@ public class Menu {
                 campea.getDono().getNome(), campea.getDono().getTitulo(), campea.getNome());
         partida = null;
         cidade = null;
+    }
+
+    private boolean exigirJogoEmAndamento() {
+        if (partida == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return false;
+        }
+        return true;
     }
 
     private void exibirSobre() {
