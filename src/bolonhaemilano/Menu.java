@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in, "UTF-8");
     private boolean emExecucao = true;
+    private final Construcoes construcoes = new Construcoes();
     private final Governo governo = new Governo();
     private final Agricultura agricultura = new Agricultura();
     private final Mercado mercado = new Mercado();
@@ -26,7 +27,8 @@ public class Menu {
         System.out.println("3 - Mercado");
         System.out.println("4 - Agricultura");
         System.out.println("5 - Governo");
-        System.out.println("6 - Sobre o jogo");
+        System.out.println("6 - Construções");
+        System.out.println("7 - Sobre o jogo");
         System.out.println("0 - Sair");
     }
 
@@ -61,6 +63,9 @@ public class Menu {
                 abrirGoverno();
                 break;
             case 6:
+                abrirConstrucoes();
+                break;
+            case 7:
                 exibirSobre();
                 break;
             case 0:
@@ -235,6 +240,34 @@ public class Menu {
         }
         governo.definirJustica(cidade, niveis[opcao - 1]);
         System.out.println("Justiça definida como " + cidade.getNivelJustica() + ".");
+    }
+
+    private void abrirConstrucoes() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+        while (true) {
+            System.out.printf("%n--- Construções | %d florins | %d servos ---%n",
+                    cidade.getFlorins(), cidade.getServos());
+            System.out.printf("1 - Recrutar soldados (%d florins e 1 servo cada)%n", construcoes.getPrecoSoldado());
+            System.out.printf("2 - Construir (%d florins cada)%n", construcoes.getPrecoConstrucao());
+            System.out.println("0 - Voltar");
+            switch (lerOpcao()) {
+                case 1:
+                    informarResultado(construcoes.recrutarSoldados(cidade, lerQuantidade("Soldados: ")),
+                            "Soldados recrutados.");
+                    break;
+                case 2:
+                    informarResultado(construcoes.construir(cidade, lerQuantidade("Construções: ")),
+                            "Construções concluídas.");
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
     }
 
     private void exibirSobre() {

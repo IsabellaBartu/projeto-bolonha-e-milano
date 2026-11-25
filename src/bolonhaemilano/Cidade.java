@@ -4,6 +4,8 @@ public class Cidade {
     private final String nome;
     private final Jogador dono;
     private int anoAtual = 1400;
+    private int construcoes = 0;
+    private int soldados = 0;
     private int taxaImposto = 10;
     private String nivelJustica = "Moderada";
     private int servos = 200;
@@ -120,10 +122,48 @@ public class Cidade {
         this.nivelJustica = nivelJustica;
     }
 
+    public int getSoldados() {
+        return soldados;
+    }
+
+    public void adicionarSoldados(int quantidade) {
+        if (quantidade > 0) {
+            soldados = Math.addExact(soldados, quantidade);
+        }
+    }
+
+    public boolean removerSoldados(int quantidade) {
+        if (quantidade < 0 || quantidade > soldados) {
+            return false;
+        }
+        soldados -= quantidade;
+        return true;
+    }
+
+    public int getConstrucoes() {
+        return construcoes;
+    }
+
+    public void adicionarConstrucoes(int quantidade) {
+        if (quantidade > 0) {
+            construcoes = Math.addExact(construcoes, quantidade);
+        }
+    }
+
+    public boolean removerConstrucoes(int quantidade) {
+        if (quantidade < 0 || quantidade > construcoes) {
+            return false;
+        }
+        construcoes -= quantidade;
+        return true;
+    }
+
     public void exibirStatus() {
         System.out.println("Cidade: " + nome);
         System.out.printf("Governante: %s (%s)%n", dono.getNome(), dono.getTitulo());
         System.out.println("Ano: " + anoAtual);
+        System.out.println("Soldados: " + soldados);
+        System.out.println("Construções: " + construcoes);
         System.out.println("Taxa de imposto: " + taxaImposto + "%");
         System.out.println("Nível de justiça: " + nivelJustica);
         System.out.println("Servos: " + servos);
