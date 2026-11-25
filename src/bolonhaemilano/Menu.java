@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in, "UTF-8");
     private boolean emExecucao = true;
+    private final Agricultura agricultura = new Agricultura();
     private final Mercado mercado = new Mercado();
     private Cidade cidade;
 
@@ -22,7 +23,8 @@ public class Menu {
         System.out.println("1 - Novo jogo");
         System.out.println("2 - Ver status da cidade");
         System.out.println("3 - Mercado");
-        System.out.println("4 - Sobre o jogo");
+        System.out.println("4 - Agricultura");
+        System.out.println("5 - Sobre o jogo");
         System.out.println("0 - Sair");
     }
 
@@ -51,6 +53,9 @@ public class Menu {
                 abrirMercado();
                 break;
             case 4:
+                abrirAgricultura();
+                break;
+            case 5:
                 exibirSobre();
                 break;
             case 0:
@@ -131,6 +136,47 @@ public class Menu {
                 default:
                     System.out.println("Opção inválida.");
             }
+        }
+    }
+
+    private void abrirAgricultura() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+        while (true) {
+            System.out.printf("%n--- Agricultura | %d ha | %d servos | %d grãos ---%n",
+                    cidade.getTerras(), cidade.getServos(), cidade.getGraos());
+            System.out.println("1 - Colher");
+            System.out.println("2 - Distribuir alimentos");
+            System.out.println("0 - Voltar");
+            switch (lerOpcao()) {
+                case 1:
+                    colher();
+                    break;
+                case 2:
+                    distribuirAlimentos();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
+    }
+
+    private void colher() {
+        int hectares = agricultura.processarColheita(cidade);
+        System.out.printf("Colheita: %d hectares cultivados. Estoque: %d grãos.%n", hectares, cidade.getGraos());
+    }
+
+    private void distribuirAlimentos() {
+        int servosAntes = cidade.getServos();
+        int percentual = lerQuantidade("Porcentagem do estoque (20 a 80): ");
+        if (agricultura.distribuirAlimentos(cidade, percentual)) {
+            System.out.printf("Alimentos distribuídos. Servos: %d → %d.%n", servosAntes, cidade.getServos());
+        } else {
+            System.out.println("Use uma porcentagem inteira de 20 a 80.");
         }
     }
 

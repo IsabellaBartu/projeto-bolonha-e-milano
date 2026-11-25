@@ -4,6 +4,7 @@ public class Cidade {
     private final String nome;
     private final Jogador dono;
     private int anoAtual = 1400;
+    private int servos = 200;
     private int florins = 1000;
     private int terras = 10000;
     private int graos = 500;
@@ -83,10 +84,29 @@ public class Cidade {
         return true;
     }
 
+    public int getServos() {
+        return servos;
+    }
+
+    public void adicionarServos(int quantidade) {
+        if (quantidade > 0) {
+            servos = Math.addExact(servos, quantidade);
+        }
+    }
+
+    public boolean removerServos(int quantidade) {
+        if (quantidade < 0 || quantidade > servos) {
+            return false;
+        }
+        servos -= quantidade;
+        return true;
+    }
+
     public void exibirStatus() {
         System.out.println("Cidade: " + nome);
         System.out.printf("Governante: %s (%s)%n", dono.getNome(), dono.getTitulo());
         System.out.println("Ano: " + anoAtual);
+        System.out.println("Servos: " + servos);
         System.out.println("Florins: " + florins);
         System.out.println("Terras: " + terras + " hectares");
         System.out.println("Grãos em estoque: " + graos);
