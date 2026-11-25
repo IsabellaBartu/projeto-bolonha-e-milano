@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in, "UTF-8");
     private boolean emExecucao = true;
+    private final Mercado mercado = new Mercado();
     private Cidade cidade;
 
     public void executar() {
@@ -20,7 +21,8 @@ public class Menu {
         System.out.println("\n=== Bolonha & Milano ===");
         System.out.println("1 - Novo jogo");
         System.out.println("2 - Ver status da cidade");
-        System.out.println("3 - Sobre o jogo");
+        System.out.println("3 - Mercado");
+        System.out.println("4 - Sobre o jogo");
         System.out.println("0 - Sair");
     }
 
@@ -46,6 +48,9 @@ public class Menu {
                 exibirStatus();
                 break;
             case 3:
+                abrirMercado();
+                break;
+            case 4:
                 exibirSobre();
                 break;
             case 0:
@@ -78,6 +83,55 @@ public class Menu {
             return;
         }
         cidade.exibirStatus();
+    }
+
+    private int lerQuantidade(String pergunta) {
+        System.out.print(pergunta);
+        if (!scanner.hasNextLine()) {
+            return -1;
+        }
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException erro) {
+            return -1;
+        }
+    }
+
+    private void informarResultado(boolean sucesso, String mensagem) {
+        System.out.println(sucesso ? mensagem : "Operação recusada. Confira a quantidade e os recursos.");
+    }
+
+    private void abrirMercado() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+        while (true) {
+            System.out.printf("%n--- Mercado | %d florins ---%n", cidade.getFlorins());
+            System.out.printf("1 - Comprar grãos (%d florins cada)%n", mercado.getPrecoGrao());
+            System.out.println("2 - Vender grãos");
+            System.out.printf("3 - Comprar terras (%d florim por hectare)%n", mercado.getPrecoTerra());
+            System.out.println("4 - Vender terras");
+            System.out.println("0 - Voltar");
+            switch (lerOpcao()) {
+                case 1:
+                    informarResultado(mercado.comprarGraos(cidade, lerQuantidade("Grãos: ")), "Grãos comprados.");
+                    break;
+                case 2:
+                    informarResultado(mercado.venderGraos(cidade, lerQuantidade("Grãos: ")), "Grãos vendidos.");
+                    break;
+                case 3:
+                    informarResultado(mercado.comprarTerras(cidade, lerQuantidade("Hectares: ")), "Terras compradas.");
+                    break;
+                case 4:
+                    informarResultado(mercado.venderTerras(cidade, lerQuantidade("Hectares: ")), "Terras vendidas.");
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
     }
 
     private void exibirSobre() {
